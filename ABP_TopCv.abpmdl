@@ -1,0 +1,101 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.3.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.3.2",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "ABP_TopCv.Application": {
+      "path": "src/ABP_TopCv.Application/ABP_TopCv.Application.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.Application.Tests": {
+      "path": "test/ABP_TopCv.Application.Tests/ABP_TopCv.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "ABP_TopCv.Domain.Shared": {
+      "path": "src/ABP_TopCv.Domain.Shared/ABP_TopCv.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.Application.Contracts": {
+      "path": "src/ABP_TopCv.Application.Contracts/ABP_TopCv.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.HttpApi": {
+      "path": "src/ABP_TopCv.HttpApi/ABP_TopCv.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.HttpApi.Client": {
+      "path": "src/ABP_TopCv.HttpApi.Client/ABP_TopCv.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.EntityFrameworkCore.Tests": {
+      "path": "test/ABP_TopCv.EntityFrameworkCore.Tests/ABP_TopCv.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "ABP_TopCv.EntityFrameworkCore": {
+      "path": "src/ABP_TopCv.EntityFrameworkCore/ABP_TopCv.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.TestBase": {
+      "path": "test/ABP_TopCv.TestBase/ABP_TopCv.TestBase.abppkg",
+      "folder": "test"
+    },
+    "ABP_TopCv.Domain.Tests": {
+      "path": "test/ABP_TopCv.Domain.Tests/ABP_TopCv.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "ABP_TopCv.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/ABP_TopCv.HttpApi.Client.ConsoleTestApp/ABP_TopCv.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "ABP_TopCv.DbMigrator": {
+      "path": "src/ABP_TopCv.DbMigrator/ABP_TopCv.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.HttpApi.Host": {
+      "path": "src/ABP_TopCv.HttpApi.Host/ABP_TopCv.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "ABP_TopCv.Domain": {
+      "path": "src/ABP_TopCv.Domain/ABP_TopCv.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
