@@ -18,13 +18,13 @@ jobs:
         env:
           ACCEPT_EULA: "Y"
           SA_PASSWORD: "Kk*123456"
-        ports:
-          - 11433:1433
         options: >-
-          --health-cmd " /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Kk*123456 -Q 'SELECT 1'"
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kk*123456' -Q 'SELECT 1' || exit 1"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 20
+        ports:
+          - 1433:1433
 
     steps:
       - name: Checkout source
@@ -34,6 +34,16 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
+
+      # Chờ SQL Server sẵn sàng
+      - name: Wait for SQL Server to be ready
+        run: |
+          echo "Waiting for SQL Server..."
+          for i in {1..30}; do
+            /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kk*123456' -Q "SELECT 1" && break
+            echo "SQL not ready yet..."
+            sleep 2
+          done
 
       - name: Restore dependencies
         run: dotnet restore
