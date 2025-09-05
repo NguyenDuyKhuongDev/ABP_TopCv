@@ -14,23 +14,19 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2022-latest
         env:
           ACCEPT_EULA: "Y"
-          SA_PASSWORD: ${{ secrets.SQL_SA_PASSWORD }}
+          SA_PASSWORD: "Kk*123456" # fix cứng để CI chạy
         ports:
           - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '${{ secrets.SQL_SA_PASSWORD }}' -Q 'SELECT 1'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 20
+        # bỏ healthcheck vì image không có sẵn sqlcmd
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "9.x"
 
       - name: Cache NuGet packages
         uses: actions/cache@v3
@@ -39,17 +35,18 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: ${{ runner.os }}-nuget-
 
-      - name: Wait for SQL Server
+      - name: Wait for SQL Server to be ready
         run: |
+          echo "Waiting for SQL Server to start..."
           for i in {1..30}; do
-            /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '${{ secrets.SQL_SA_PASSWORD }}' -Q "SELECT 1" && break
+            (echo > /dev/tcp/localhost/1433) >/dev/null 2>&1 && echo "SQL Server is up!" && break
             echo "SQL not ready yet..."
             sleep 2
           done
 
-      # Nếu test cần DB thì bật step này
-      #- name: Run EF Core migrations
-      #  run: dotnet ef database update -p MyProject.EntityFrameworkCore -s MyProject.HttpApi.Host
+      # Nếu bạn muốn apply migration khi CI chạy thì bật bước này
+      # - name: Run EF Core migrations
+      #   run: dotnet ef database update -p ABP_TopCv.EntityFrameworkCore -s ABP_TopCv.HttpApi.Host
 
       - name: Restore dependencies
         run: dotnet restore
