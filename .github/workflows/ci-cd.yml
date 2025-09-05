@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
       - master
   pull_request:
 
@@ -18,13 +17,13 @@ jobs:
         env:
           ACCEPT_EULA: "Y"
           SA_PASSWORD: "Kk*123456"
+        ports:
+          - 1433:1433
         options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kk*123456' -Q 'SELECT 1' || exit 1"
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Kk*123456' -Q 'SELECT 1'"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 20
-        ports:
-          - 1433:1433
 
     steps:
       - name: Checkout source
@@ -33,10 +32,18 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
+      #cache các dependencies , lần chạy action sau restore thì sẽ check cái nào trong cache rồi thì ko tải thêm nữa
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       # Chờ SQL Server sẵn sàng
-      - name: Wait for SQL Server to be ready
+      - name: Wait for SQL Server
         run: |
           echo "Waiting for SQL Server..."
           for i in {1..30}; do
@@ -68,7 +75,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/abp-app:latest .
+        run: docker build --cache-from=${{ secrets.DOCKER_HUB_USERNAME }}/abp-app:latest -t ${{ secrets.DOCKER_HUB_USERNAME }}/abp-app:latest .
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/abp-app:latest
