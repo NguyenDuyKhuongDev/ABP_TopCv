@@ -54,8 +54,15 @@ jobs:
       - name: Build project
         run: dotnet build --no-restore --configuration Release
 
-      - name: Run tests
-        run: dotnet test --no-build --verbosity normal
+      - name: Run Application.Tests
+        run: dotnet test ./test/ABP_TopCv.Application.Tests/ABP_TopCv.Application.Tests.csproj --no-build --verbosity normal
+
+      - name: Run Domain.Tests
+        run: dotnet test ./test/ABP_TopCv.Domain.Tests/ABP_TopCv.Domain.Tests.csproj --no-build --verbosity normal
+
+      - name: Run EntityFrameworkCore.Tests
+        run: dotnet test ./test/ABP_TopCv.EntityFrameworkCore.Tests/ABP_TopCv.EntityFrameworkCore.Tests.csproj --no-build --verbosity normal
+
 
   docker-build-and-push:
     runs-on: ubuntu-latest
