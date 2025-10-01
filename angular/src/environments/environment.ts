@@ -11,6 +11,8 @@ const oAuthConfig = {
   requireHttps: true,
 };
 
+const useMockApi = true;
+
 export const environment = {
   production: false,
   application: {
@@ -18,13 +20,16 @@ export const environment = {
     name: 'ABP_TopCv',
   },
   oAuthConfig,
+   //cau hinh su dung mock api
+    useMockApi,
   apis: {
     default: {
-      url: 'https://localhost:44389',
+      // Redirect to angular app for mock data khi useMockApi = true
+      url: useMockApi ? baseUrl : 'https://localhost:44389',
       rootNamespace: 'ABP_TopCv',
     },
     AbpAccountPublic: {
-      url: oAuthConfig.issuer,
+      url: useMockApi ? baseUrl : oAuthConfig.issuer,
       rootNamespace: 'AbpAccountPublic',
     },
   },

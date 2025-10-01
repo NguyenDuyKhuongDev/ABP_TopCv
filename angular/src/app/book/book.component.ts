@@ -25,6 +25,7 @@ import {
   ModalComponent
 } from '@abp/ng.theme.shared';
 import { BookService, BookDto, bookTypeOptions } from '../proxy/books';
+// import { CustomBookService } from '../services/custom-book.service';
 
 @Component({
   selector: 'app-book',

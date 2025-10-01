@@ -14,6 +14,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
+using ABP_TopCv.Jobs;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace ABP_TopCv.EntityFrameworkCore;
@@ -29,6 +30,7 @@ public class ABP_TopCvDbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
     public DbSet<Book> Books { get; set; }
+    public DbSet<Book> Jobs { get; set; }
 
     #region Entities from the modules
 
@@ -80,7 +82,7 @@ public class ABP_TopCvDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
-        
+
         builder.Entity<Book>(b =>
         {
             b.ToTable(ABP_TopCvConsts.DbTablePrefix + "Books",
@@ -88,14 +90,14 @@ public class ABP_TopCvDbContext :
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
         });
-        
-        /* Configure your own tables/entities inside here */
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(ABP_TopCvConsts.DbTablePrefix + "YourEntities", ABP_TopCvConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
-    }
+        builder.Entity<Job>(b =>
+        {
+            b.ToTable(ABP_TopCvConsts.DbTablePrefix + "Jobs",
+                ABP_TopCvConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Id).ValueGeneratedOnAdd();
+        });
+
+           }
 }
